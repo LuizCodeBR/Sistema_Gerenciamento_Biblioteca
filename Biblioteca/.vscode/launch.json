@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Main",
+            "request": "launch",
+            "program": "${workspaceFolder}\target\classes",
+            "mainClass": "org.example.Main",
+            "projectName": "teste",
+            "preLaunchTask": "compile"
+        },
+        {
+            "type": "java",
+            "name": "Run (Start) - Main",
+            "request": "launch",
+            "program": "${workspaceFolder}\target\classes",
+            "mainClass": "org.example.Main",
+            "projectName": "teste",
+            "preLaunchTask": "compile"
+        }
+    ]
+}
