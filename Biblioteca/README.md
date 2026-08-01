@@ -1,13 +1,30 @@
 # Sistema de Gerenciamento de Biblioteca
 
-Este é um sistema simples de gerenciamento de biblioteca desenvolvido em Java, utilizando MySQL como banco de dados. O projeto permite cadastrar usuários, livros, realizar empréstimos, devoluções e reservas.
+Um sistema simples de gerenciamento de biblioteca desenvolvido em Java, utilizando MySQL como banco de dados. O projeto permite cadastrar usuários, livros, realizar empréstimos, devoluções e reservas.
+
+## 📋 Funcionalidades
+
+- **Autenticação de Usuários**: Sistema de login com diferentes níveis de acesso (Administrador, Funcionário, Cliente)
+- **Gerenciamento de Livros**: Cadastro, edição, remoção e busca de livros físicos
+- **Empréstimos e Devoluções**: Sistema completo de empréstimo de livros com controle de disponibilidade
+- **Reservas**: Sistema de reserva de livros quando não disponíveis para empréstimo
+- **Gerenciamento de Usuários**: Cadastro, edição, remoção e listagem de usuários
+- **Relatórios**: Listagem de empréstimos ativos e reservas pendentes
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Java JDK 24** (ou superior)
+- **MySQL Server 8.0** (ou compatible)
+- **MySQL Connector/J 8.0.33** (Driver JDBC)
+- **Maven** (para gerenciamento de dependências)
+- **VS Code** (recomendado) com extensão *Java Extension Pack*
 
 ## 📋 Requisitos
 
-- **Java JDK 26** (ou superior)
-- **MySQL Server 8.0** (ou compatible)
-- **Git** (opcional, para clonar o repositório)
-- **VS Code** (recomendado) com a extensão *Java Extension Pack*
+- Java JDK 24 ou superior
+- MySQL Server 8.0 ou compatible
+- Git (opcional, para clonar o repositório)
+- VS Code (recomendado) com a extensão *Java Extension Pack*
 
 ## 🛠️ Configuração do Banco de Dados
 
@@ -41,7 +58,7 @@ Este é um sistema simples de gerenciamento de biblioteca desenvolvido em Java, 
 
 ```powershell
 # Acesse a pasta do projeto
-cd C:\Users\<seu_usuario>\Documents\Sistema_Gerenciamento_Biblioteca
+cd Biblioteca
 
 # Compile (se ainda não compilado)
 javac -d out -cp "mysql-connector-j-8.0.33\mysql-connector-j-8.0.33.jar" src\main\java\org\example\*.java
@@ -50,15 +67,15 @@ javac -d out -cp "mysql-connector-j-8.0.33\mysql-connector-j-8.0.33.jar" src\mai
 java -cp "out;mysql-connector-j-8.0.33\mysql-connector-j-8.0.33.jar" org.example.Main
 ```
 
-### Via VS Code (Recomendado)
+### Via VS Code (Recomendado)
 
-1. Abra a pasta do projeto no VS Code (`File → Open Folder...`).
+1. Abra a pasta do projeto no VS Code (`File → Open Folder...`).
 2. A extensão **Java Extension Pack** detectará automaticamente o `pom.xml` e baixará as dependências (MySQL Connector/J).
 3. Não é necessário configurar nada além disso – o projeto já contém a pasta `.vscode` com:
    - `launch.json` (configurações de *Run* e *Debug*)
    - `tasks.json` (task `compile` que roda `mvn compile` antes de lançar)
 4. Em `src/main/java/org/example/Main.java`, clique no ícone ▶️ **Run** (ou pressione `F5` para depurar).
-5. O terminal integrado do VS Code mostrará a saída do programa e permitirá interação (digitação de login, senha, opções de menu, etc.).
+5. O terminal integrado do VS Code mostrará a saída do programa e permitirá interação (digitação de login, senha, opções de menu, etc.).
 
 ### Primeiro Acesso
 
@@ -71,25 +88,45 @@ java -cp "out;mysql-connector-j-8.0.33\mysql-connector-j-8.0.33.jar" org.example
 - O **RA** (Registro Acadêmico) esperado pelo sistema possui **exatamente 7 dígitos** (ex.: `0000001`). O método de cadastro automático gera um RA a partir do timestamp atual, sempre truncado para 7 dígitos.
 - Caso altere a senha do usuário `root` do MySQL, edite a classe `src/main/java/org/example/Conexao.java` e atualize a constante `DB_PASSWORD`.
 - O arquivo `input.txt` presente no repositório é apenas um exemplo de entrada para testes rápidos e não é necessário para a execução normal.
+- O driver MySQL Connector/J versão 8.0.33 está incluso no diretório raiz do projeto.
 
-## 📁 Estrutura de Pastas Relevante
+## 📁 Estrutura de Pastas
 
 ```
 Sistema_Gerenciamento_Biblioteca
-├─ src/
-│  └─ main/
-│     └─ java/
-│        └─ org/example/
-│           ├─ *.java          # Código-fonte
-│           └─ ...
-├─ mysql-connector-j-8.0.33/   # JAR do driver MySQL (versão 8.0.33)
-├─ pom.xml                     # Configuração Maven (inclui dependência do MySQL Connector/J)
-├─ init_db.sql                 # Script de criação do banco e população inicial
-├─ .vscode/
-│  ├─ launch.json              # Configurações de Run/Debug no VS Code
-│  ├─ tasks.json               # Task de compilação Maven
-│  └─ settings.json            # Ajustes do Java Extension Pack
-└─ README.md                   # Este arquivo
+├─ Biblioteca/
+│  ├─ .gitignore
+│  ├─ .vscode/
+│  │  ├─ launch.json              # Configurações de Run/Debug no VS Code
+│  │  ├─ settings.json            # Ajustes do Java Extension Pack
+│  │  └─ tasks.json               # Task de compilação Maven
+│  ├─ Biblioteca.eml              # Configurações de e-mail do VS Code
+│  ├─ Biblioteca.userlibraries    # Bibliotecas do usuário no VS Code
+│  ├─ init_db.sql                 # Script de criação do banco e população inicial
+│  ├─ pom.xml                     # Configuração Maven (inclui dependência do MySQL Connector/J)
+│  ├─ README.md                   # Este arquivo
+│  └─ src/
+│     └─ main/
+│        └─ java/
+│           └─ org/example/
+│              ├─ Administrador.java   # Classe Administrador (herda de Usuario)
+│              ├─ Cliente.java         # Classe Cliente (herda de Usuario)
+│              ├─ Conexao.java         # Classe de conexão com o banco de dados
+│              ├─ EmprestimoDAO.java   # Data Access Object para empréstimos
+│              ├─ EmprestimoStatus.java # Enum para status de empréstimos
+│              ├─ Funcionario.java     # Classe Funcionário (herda de Usuario)
+│              ├─ Livro.java           # Classe abstrata para livros
+│              ├─ LivroBase.java       # Classe base para livros
+│              ├─ LivroFisico.java     # Classe para livros físicos
+│              ├─ Main.java            # Classe principal com menu de navegação
+│              ├─ Reserva.java         # Classe para reservas
+│              ├─ ReservaDAO.java      # Data Access Object para reservas
+│              ├─ Usuario.java         # Classe abstrata para usuários
+│              └─ UsuarioDAO.java      # Data Access Object para usuarios
+└─ src/
+   └─ main/
+      └─ java/
+         └─ org/example/           # [DUPLICADO] Código-fonte idêntico ao acima
 ```
 
 ## 🤝 Contribuição
@@ -98,4 +135,4 @@ Sinta-se à vontade para abrir **issues** ou enviar **pull requests** com melhor
 
 ---
 
-**Pronto!** Agora você tem o código, sabe como configurar o ambiente de execução e pode usar o VS Code para rodar e apresentar o Sistema de Gerenciamento de Biblioteca. Boa apresentação! 🚀
+**Pronto!** Agora você tem o código, sabe como configurar o ambiente de execução e pode usar o VS Code para rodar e apresentar o Sistema de Gerenciamento de Biblioteca. Boa apresentação! 🚀
