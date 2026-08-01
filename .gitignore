@@ -34,10 +34,10 @@ typedoc/
 Thumbs.db
 
 # Project specific
-Biblioteca/target/
-Biblioteca/.vscode/
-Biblioteca/.classpath
-Biblioteca/.project
+target/
+.vscode/
+.classpath
+.project
 
 # Test files
 DriverTest.java
